@@ -48,6 +48,9 @@ export const getMediaKeyImportance = (key: string) => {
   if (process.env.NODE_ENV === 'development' && key[0] === '$') {
     throw new Error('use short key')
   }
+  if (!mediaKeysOrdered) {
+    throw new Error('getMediaKeyImportance ran before configureMedia')
+  }
   // + 2 because we set base usedKeys=1 in getSplitStyles and all media go above 1
   return mediaKeysOrdered.indexOf(key) + 2
 }

@@ -160,7 +160,7 @@ export function createComponent<
 
     // React inserts default props after your props for some reason...
     // order important so we do loops, you can't just spread because JS does weird things
-    let props: any
+    let props: { [x: string]: any };
     if (tamaguiDefaultProps && !propsIn.asChild) {
       props = mergeProps(tamaguiDefaultProps, propsIn)[0]
     } else {
@@ -179,9 +179,9 @@ export function createComponent<
     /**
      * Component state for tracking animations, pseudos
      */
-    const animationsConfig = tamaguiConfig.animations
+    const animationsConfig = tamaguiConfig.animations || null;
     const useAnimations = animationsConfig?.useAnimations as UseAnimationHook | undefined
-    const avoidClassesWhileAnimating = animationsConfig.isReactNative
+    const avoidClassesWhileAnimating = animationsConfig?.isReactNative
     const hasEnterStyle = !!props.enterStyle
     const needsMount = Boolean(
       (isWeb ? isClient : true) && (hasEnterStyle || props.animation)
@@ -232,7 +232,7 @@ export function createComponent<
     }
 
     const isReactNative = Boolean(
-      staticConfig.isReactNative || (isAnimated && tamaguiConfig.animations.isReactNative)
+      staticConfig.isReactNative || (isAnimated && tamaguiConfig.animations?.isReactNative)
     )
 
     if (process.env.NODE_ENV === 'development') {
